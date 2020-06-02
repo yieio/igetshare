@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.5.3",
+    "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.3.2"
   },
   "devDependencies": {

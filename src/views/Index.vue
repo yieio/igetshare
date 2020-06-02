@@ -1,28 +1,68 @@
 <template>
   <div class="container">
-    <MyProfile msg="Welcome to Your Vue.js App" />
-    <ClassList />
+    <MyProfile />
 
+    <div
+      v-infinite-scroll="handleInfiniteOnLoad"
+      class="infinite-container"
+      :infinite-scroll-disabled="busy"
+      :infinite-scroll-distance="10"
+    >
+      <ClassList :classes="classes" />
 
-    <!--赞赏按钮开始-->
-    <div class="thumbup-wrapper">
-    <a-button type="danger" icon="like">
-      赞赏
-    </a-button>
+      <div v-if="loading && !busy" class="loading-container">
+        <a-spin />
+      </div>
     </div>
-    <!--赞赏按钮结束-->
   </div>
 </template>
 
 <script>
+import infiniteScroll from "vue-infinite-scroll";
 import MyProfile from "../components/MyProfile.vue";
 import ClassList from "../components/ClassList.vue";
 
 export default {
-  name: "App",
+  name: "index",
+  directives: { infiniteScroll },
   components: {
     MyProfile,
     ClassList
+  },
+  data: () => ({
+    classes: [],
+    loading: false,
+    busy: false
+  }),
+  methods: {
+    getClasses: function() {
+      var _t = this;
+      _t.$ajax
+        .get(_t.$conf.getClasses, {
+          params: { lastId: _t.classes.length, count: 50 }
+        })
+        .then(function(resp) {
+          var respObj = resp.data;
+          if (respObj.type == 200) {
+            if (respObj.data.classes.length > 0) {
+              _t.classes = _t.classes.concat(respObj.data.classes);
+            } else {
+              _t.busy = true;
+            }
+          }
+          _t.loading = false;
+        });
+    },
+    handleInfiniteOnLoad() {
+      var _t = this;
+      if (!_t.loading) {
+        _t.loading = true;
+        _t.getClasses();
+      }
+    }
+  },
+  mounted: function() {
+    //this.getClasses();
   }
 };
 </script>
@@ -31,8 +71,12 @@ export default {
   background-color: #f9f9f9;
 }
 
-.thumbup-wrapper{
-    margin:10px;
-    text-align: center;
+
+
+.loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
 }
 </style>

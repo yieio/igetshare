@@ -13,7 +13,8 @@ const router = new VueRouter({
         {
             path: '/lesson',
             name: 'lesson',
-            component: ClassLessons
+            component: ClassLessons,
+            props:(route) => ({classId: route.query.classId })
         }
     ]
 })
