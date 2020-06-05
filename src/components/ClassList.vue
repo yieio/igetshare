@@ -1,5 +1,5 @@
 <template>
-  <a-card title="课程分享" style="margin:10px;" :bordered="false">
+  <a-card title="课程分享" style="margin:10px;" :bordered="false" class="none-padding-top">
     <a-list item-layout="horizontal" :data-source="classes">
       <a-list-item slot="renderItem" slot-scope="item">
         <a href="javascript:;" @click="goLensson(item.id)" class="class-item">
@@ -38,4 +38,6 @@ export default {
   display: block;
   width: 100%;
 }
+
+ 
 </style>

@@ -1,8 +1,9 @@
 <template>
+  <!--指定分享课程文章-->
   <div>
     <a-card hoverable :bordered="false" class="the-class-info">
-      <a-card-meta :title="theClass.title" :description="theClass.author">
-        <a-avatar shape="square" :size="52" slot="avatar" :src="theClass.icon" />
+      <a-card-meta :title="title" :description="author">
+        <a-avatar shape="square" :size="52" slot="avatar" :src="avatarUrl" />
       </a-card-meta>
     </a-card>
 
@@ -43,18 +44,21 @@ import utility from "../common/utility";
 
 export default {
   directives: { infiniteScroll },
-  props: {
-    classId: { type: String, default: "iget-83" }
+  props: { 
+    lessonIds:{type:String,default:""},
+    title: { type: String, default: "" },
+    author:{type:String,default:""},
   },
   data: () => ({
     theClass: {},
     lessons: [],
     loading: false,
-    busy: false
+    busy: false,
+    avatarUrl:require('../assets/avatar.jpg')
   }),
   methods: {
-    showPublishTime(publishTime){
-      //unix时间戳转换 
+    showPublishTime(publishTime) {
+      //unix时间戳转换
       return utility.formatTimestamp(publishTime*1000,"yyyy-MM-dd");
     },
     goHome: function() {
@@ -65,15 +69,14 @@ export default {
       var _t = this;
 
       _t.$ajax
-        .get(_t.$conf.getClassLessons, {
-          params: { classId: _t.classId, lastId: _t.lessons.length, count: 50 }
+        .get(_t.$conf.getShareLessons, {
+          params: { lessonIds: _t.lessonIds, lastId: _t.lessons.length, count: 50 }
         })
         .then(function(resp) {
           var respObj = resp.data;
           if (respObj.type == 200) {
             if (respObj.data.lessons.length > 0) {
-              _t.lessons = _t.lessons.concat(respObj.data.lessons);
-              _t.theClass = respObj.data.theClass;
+              _t.lessons = _t.lessons.concat(respObj.data.lessons); 
               if (respObj.data.lessons.length < 50) {
                 _t.busy = true;
               }
@@ -117,17 +120,17 @@ export default {
   left: 0;
   z-index: 100;
   border-color: rgba(0, 0, 0, 0.09);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
 }
 
-.list-item-a{
+.list-item-a {
   display: block;
   width: 100%;
 }
 </style>
 
 <style>
-.none-padding-top .ant-card-body{
-  padding-top:0;
+.none-padding-top .ant-card-body {
+  padding-top: 0;
 }
 </style>

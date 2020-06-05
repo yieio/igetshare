@@ -1,19 +1,16 @@
 <template>
-<div>
-  <a-card :bordered="false"> 
-    <a-card-meta title="yieio" description="yieio的付费课程分享">
+<div class="the-class-info">
+   <a-card :bordered="false" > 
+    <a-card-meta title="yieio" description="得到课程分享">
       <a-avatar
-      :size = "48"
+      :size = "52"
         slot="avatar"
-        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+        :src="avatarImg"
       /> 
     </a-card-meta> 
+
+    <a-button type="danger" icon="like" class="like-button" @click="goThumbup">赞赏</a-button>
   </a-card>
-   <!--赞赏按钮开始-->
-    <div class="thumbup-wrapper">
-      <a-button type="danger" icon="like">赞赏</a-button>
-    </div>
-    <!--赞赏按钮结束-->
 </div>
   
 </template>
@@ -21,8 +18,15 @@
 <script>
 export default {
   name: 'MyProfile',
-  props: {
-    msg: String
+  props: { 
+  },
+  data:()=>({
+    avatarImg: require('../assets/avatar.jpg')
+  }),
+  methods:{
+    goThumbup:function(){
+      window.location = "javascript:;"
+    }
   }
 }
 </script>
@@ -32,5 +36,20 @@ export default {
  .thumbup-wrapper {
   margin: 10px;
   text-align: center;
+}
+
+.the-class-info {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  border-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+.like-button{
+    position: absolute;
+    right: 20px;
+    top: 30px;
 }
 </style>

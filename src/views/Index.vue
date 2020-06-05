@@ -68,15 +68,19 @@ export default {
 </script>
 <style scoped>
 .container {
-  background-color: #f9f9f9;
+  background-color: #ededed;
 }
-
-
 
 .loading-container {
   position: absolute;
   bottom: 40px;
   width: 100%;
   text-align: center;
+}
+</style>
+
+<style>
+.none-padding-top .ant-card-body{
+  padding-top:0;
 }
 </style>
