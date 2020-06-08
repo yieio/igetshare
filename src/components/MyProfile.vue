@@ -1,15 +1,15 @@
 <template>
 <div class="the-class-info">
    <a-card :bordered="false" > 
-    <a-card-meta title="yieio" description="得到课程分享">
+    <a-card-meta :title="nickname==''?'yieio':nickname" description="得到课程分享">
       <a-avatar
       :size = "52"
         slot="avatar"
-        :src="avatarImg"
+        :src="avatar==''?avatarImg:avatar"
       /> 
     </a-card-meta> 
 
-    <a-button type="danger" icon="like" class="like-button" @click="goThumbup">赞赏</a-button>
+    <a-button v-if="nickname=='yieio'||nickname==''" type="danger" icon="like" class="like-button" @click="goThumbup">赞赏</a-button>
   </a-card>
 </div>
   
@@ -19,13 +19,15 @@
 export default {
   name: 'MyProfile',
   props: { 
+    nickname:{type:String,default:"yieio"},
+    avatar:{type:String,default:""}
   },
   data:()=>({
     avatarImg: require('../assets/avatar.jpg')
   }),
   methods:{
     goThumbup:function(){
-      window.location = "javascript:;"
+      window.location = "https://mp.weixin.qq.com/s/xJ15mR7MnUZNsH4RDwfzxg"
     }
   }
 }

@@ -2,12 +2,18 @@ import VueRouter from 'vue-router'
 import Index from './views/Index.vue'
 import ClassLessons from './views/ClassLessons.vue'
 import ShareLessons from './views/ShareLessons.vue'
+import IgetLogin from './views/IgetLogin.vue'
 
 const router = new VueRouter({    
     routes: [{
             path: '/',
             name: 'class',
-            component: Index
+            component: Index,
+            props: (route) => ({ 
+                username: route.query.username,
+                nickname: route.query.nickname,
+                avatar: route.query.avatar
+            })
         },
         {
             path: '/lesson',
@@ -21,6 +27,16 @@ const router = new VueRouter({
             path: '/sharelesson',
             name: 'sharelesson',
             component: ShareLessons,
+            props: (route) => ({
+                lessonIds: route.query.lessonIds,
+                title: route.query.title,
+                author: route.query.author
+            })
+        },
+        {
+            path: '/igetlogin',
+            name: 'igetlogin',
+            component: IgetLogin,
             props: (route) => ({
                 lessonIds: route.query.lessonIds,
                 title: route.query.title,

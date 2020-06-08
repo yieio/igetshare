@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MyProfile />
+    <MyProfile :nickname="nickname" :avatar="avatar" />
 
     <div
       v-infinite-scroll="handleInfiniteOnLoad"
@@ -29,12 +29,23 @@ export default {
     MyProfile,
     ClassList
   },
+  props: { 
+    userName:{ type: String, default: "yieio" },
+    nickname: { type: String, default: "" },
+    avatar:{type:String,default:""},
+  },
   data: () => ({
     classes: [],
     loading: false,
     busy: false
   }),
   methods: {
+    getUserInfo:function(){
+      var _t = this;
+      if(_t.userName!=''&&_t.userName!='yieio'){
+        //获取用户信息
+      }
+    },
     getClasses: function() {
       var _t = this;
       _t.$ajax
