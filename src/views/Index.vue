@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <MyProfile :nickname="nickname" :avatar="avatar" />
+    <MyProfile :nickname="userInfo.nickName" :avatar="userInfo.avatar" />
 
     <div
       v-infinite-scroll="handleInfiniteOnLoad"
@@ -8,7 +8,7 @@
       :infinite-scroll-disabled="busy"
       :infinite-scroll-distance="10"
     >
-      <ClassList :classes="classes" />
+      <ClassList :classes="classes" :userName="userName" />
 
       <div v-if="loading && !busy" class="loading-container">
         <a-spin />
@@ -30,27 +30,41 @@ export default {
     ClassList
   },
   props: { 
-    userName:{ type: String, default: "yieio" },
-    nickname: { type: String, default: "" },
-    avatar:{type:String,default:""},
+    userName:{ type: String, default: "iget-35900541" } 
   },
   data: () => ({
     classes: [],
     loading: false,
-    busy: false
+    busy: false,
+    userInfo:{}
   }),
   methods: {
     getUserInfo:function(){
       var _t = this;
-      if(_t.userName!=''&&_t.userName!='yieio'){
+      if(_t.userName!=''&&_t.userName!='iget-35900541'){
         //获取用户信息
+         _t.$ajax
+        .get(_t.$conf.getIgetUserInfo, {
+          params: {
+            userName: _t.userName
+          }
+        })
+        .then(function(resp) {
+          var respObj = resp.data;
+          if (respObj.type == 200) {
+            _t.userInfo = respObj; 
+          } else {
+            //提示返回内容
+            _t.$message.warning(respObj.content);
+          }
+        });
       }
     },
     getClasses: function() {
-      var _t = this;
+      var _t = this; 
       _t.$ajax
         .get(_t.$conf.getClasses, {
-          params: { lastId: _t.classes.length, count: 50 }
+          params: {userName:_t.userName,lastId: _t.classes.length, count: 50 }
         })
         .then(function(resp) {
           var respObj = resp.data;
@@ -73,7 +87,7 @@ export default {
     }
   },
   mounted: function() {
-    //this.getClasses();
+    this.getUserInfo();
   }
 };
 </script>

@@ -11,6 +11,8 @@
     "ant-design-vue": "^1.5.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "html2canvas": "^1.0.0-rc.4",
+    "qrcodejs2": "0.0.2",
     "vue": "^2.6.11",
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.3.2"

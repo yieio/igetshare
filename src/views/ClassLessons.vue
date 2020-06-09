@@ -44,7 +44,8 @@ import utility from "../common/utility";
 export default {
   directives: { infiniteScroll },
   props: {
-    classId: { type: String, default: "iget-83" }
+    classId: { type: String, default: "" },
+    userName: { type: String, default: "" }
   },
   data: () => ({
     theClass: {},
@@ -58,7 +59,11 @@ export default {
       return utility.formatTimestamp(publishTime*1000,"yyyy-MM-dd");
     },
     goHome: function() {
-      this.$router.push("/");
+      var _t = this;
+      this.$router.push({path:"/",
+        query: {
+          userName: _t.userName
+        }});
     },
 
     getClassLessons: function() {
@@ -66,7 +71,7 @@ export default {
 
       _t.$ajax
         .get(_t.$conf.getClassLessons, {
-          params: { classId: _t.classId, lastId: _t.lessons.length, count: 50 }
+          params: { userClassId: _t.classId, lastId: _t.lessons.length, count: 50 }
         })
         .then(function(resp) {
           var respObj = resp.data;

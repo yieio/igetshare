@@ -10,7 +10,7 @@ const router = new VueRouter({
             name: 'class',
             component: Index,
             props: (route) => ({ 
-                username: route.query.username,
+                userName: route.query.userName,
                 nickname: route.query.nickname,
                 avatar: route.query.avatar
             })
@@ -20,7 +20,8 @@ const router = new VueRouter({
             name: 'lesson',
             component: ClassLessons,
             props: (route) => ({
-                classId: route.query.classId
+                classId: route.query.classId,
+                userName:route.query.userName
             })
         },
         {
