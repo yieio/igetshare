@@ -27,7 +27,7 @@ export default {
   }),
   methods:{
     goThumbup:function(){
-      window.location = "https://mp.weixin.qq.com/s/xJ15mR7MnUZNsH4RDwfzxg"
+      window.location = "https://mp.weixin.qq.com/s/2U4Py50rbD7yqN2kKie8gw"
     }
   }
 }

@@ -21,7 +21,8 @@ const router = new VueRouter({
             component: ClassLessons,
             props: (route) => ({
                 classId: route.query.classId,
-                userName:route.query.userName
+                userName:route.query.userName,
+                q:route.query.q
             })
         },
         {

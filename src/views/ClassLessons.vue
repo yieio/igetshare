@@ -5,6 +5,7 @@
         <a-avatar shape="square" :size="52" slot="avatar" :src="theClass.icon" />
       </a-card-meta>
     </a-card>
+    <a-input-search placeholder="按文章名称查找课程"  @search="searchCourse" enter-button/>
 
     <!--课程目录列表开始-->
     <div
@@ -45,14 +46,18 @@ export default {
   directives: { infiniteScroll },
   props: {
     classId: { type: String, default: "" },
-    userName: { type: String, default: "" }
+    userName: { type: String, default: "" },
+    q:{type:String,default:""}
   },
   data: () => ({
     theClass: {},
     lessons: [],
+    orgLessons: [],
+    searchValue:"",
     loading: false,
     busy: false
   }),
+
   methods: {
     showPublishTime(publishTime){
       //unix时间戳转换 
@@ -77,8 +82,10 @@ export default {
           var respObj = resp.data;
           if (respObj.type == 200) {
             if (respObj.data.lessons.length > 0) {
-              _t.lessons = _t.lessons.concat(respObj.data.lessons);
+              _t.orgLessons = _t.orgLessons.concat(respObj.data.lessons);
               _t.theClass = respObj.data.theClass;
+
+              _t.searchCourse(_t.searchValue);
               if (respObj.data.lessons.length < 50) {
                 _t.busy = true;
               }
@@ -86,17 +93,41 @@ export default {
               _t.busy = true;
             }
           }
-          _t.loading = false;
+          _t.loading = false; 
         });
     },
 
-    handleInfiniteOnLoad() {
+    handleInfiniteOnLoad:function() {
       var _t = this;
       if (!_t.loading) {
         _t.loading = true;
         _t.getClassLessons();
       }
-    }
+    },
+
+    searchCourse:function(value){
+      //console.log(value);
+      var _t = this;
+      _t.searchValue = value;
+      if (value != "") {
+        var len = _t.orgLessons.length;
+        _t.lessons = [];
+        for (var i = 0; i < len; i++) {
+          var item = _t.orgLessons[i];
+          if (item.title.indexOf(value) >= 0) {
+            _t.lessons = _t.lessons.concat(item);
+          }
+        }
+      }else{
+        _t.lessons = _t.orgLessons;
+      }
+
+    },
+  }, 
+
+  created:function(){
+    var _t = this;
+    _t.searchValue = _t.q;
   }
 };
 </script>
